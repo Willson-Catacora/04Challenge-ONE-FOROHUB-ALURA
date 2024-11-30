@@ -1,5 +1,6 @@
 package com.alura.foroHub.controller;
 
+import com.alura.foroHub.domain.curso.Curso;
 import com.alura.foroHub.domain.topico.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/topicos")
@@ -40,5 +41,18 @@ public class TopicoController {
     public ResponseEntity<Page<DatosListaTopicos>> listarTopicos(@PageableDefault(size = 10) Pageable pagina) {
         Pageable paginaOrdenada = PageRequest.of(pagina.getPageNumber(), pagina.getPageSize(), Sort.by(Sort.Order.asc("FechaDeCreacion")));
         return ResponseEntity.ok(topicoRepositorio.findByStatusTrue(paginaOrdenada).map(DatosListaTopicos::new));
+    }
+
+    @GetMapping("/curso/{curso}")
+    public ResponseEntity<Page<DatosListaTopicos>> listarTopicosPorCurso(@PathVariable Curso curso, @PageableDefault(size = 10) Pageable pagina) {
+        System.out.println(curso);
+        return ResponseEntity.ok(topicoRepositorio.findByStatusTrueAndCurso(curso, pagina).map(DatosListaTopicos::new));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DatosDetalleTopico> detalleTopico(@PathVariable Long id){
+        Topico topico = topicoRepositorio.getReferenceById(id);
+        DatosDetalleTopico datosDetalleTopico = new DatosDetalleTopico(topico);
+        return ResponseEntity.ok().body(datosDetalleTopico);
     }
 }

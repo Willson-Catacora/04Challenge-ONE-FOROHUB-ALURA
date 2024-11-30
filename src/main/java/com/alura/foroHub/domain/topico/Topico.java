@@ -23,7 +23,6 @@ public class Topico {
     private Long Id;
     private String titulo;
     private String mensaje;
-//    @CreationTimestamp
     private LocalDateTime fechaDeCreacion;
     private Boolean status;
     private String autor;
