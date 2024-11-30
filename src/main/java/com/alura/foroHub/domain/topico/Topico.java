@@ -2,6 +2,7 @@ package com.alura.foroHub.domain.topico;
 
 import com.alura.foroHub.domain.curso.Curso;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -37,5 +38,21 @@ public class Topico {
         this.curso = datosRegistroTopico.curso();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         this.fechaDeCreacion = LocalDateTime.now();
+    }
+
+    public void actualizarDatos(@Valid DatosActualizarTopico datosActualizarTopico) {
+        if (datosActualizarTopico.titulo() != null) {
+            this.titulo = datosActualizarTopico.titulo();
+        }
+        if (datosActualizarTopico.mensaje() != null) {
+            this.mensaje = datosActualizarTopico.mensaje();
+        }
+        if (datosActualizarTopico.curso() != null) {
+            this.curso  = datosActualizarTopico.curso();
+        }
+    }
+
+    public void desactivaStatus() {
+        this.status = false;
     }
 }

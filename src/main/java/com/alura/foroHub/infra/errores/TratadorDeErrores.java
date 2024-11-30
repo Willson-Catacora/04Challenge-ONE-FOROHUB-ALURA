@@ -3,11 +3,11 @@ package com.alura.foroHub.infra.errores;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,12 +26,17 @@ public class TratadorDeErrores {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity validorTopico(EntityNotFoundException e) {
-        return new ResponseEntity<>("Id No valido o Id Incorrecto", HttpStatus.BAD_REQUEST);
+    public ResponseEntity validarTopico(EntityNotFoundException e) {
+        return new ResponseEntity<>("ID de topico no encotrado en la base de datos", HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity validorTopico(MethodArgumentTypeMismatchException e) {
-        return new ResponseEntity<>("Id No valido o Id Incorrecto", HttpStatus.BAD_REQUEST);
+    public ResponseEntity validarTopico(MethodArgumentTypeMismatchException e) {
+        return new ResponseEntity<>("ID no valido", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity validarTopico(HttpMessageNotReadableException e) {
+        return new ResponseEntity<>("ID de topico no encotrado en la base de datos", HttpStatus.BAD_REQUEST);
     }
 }
