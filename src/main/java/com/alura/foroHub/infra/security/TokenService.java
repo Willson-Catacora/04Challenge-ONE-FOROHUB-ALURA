@@ -22,7 +22,7 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(apiSecret);
             return JWT.create()
-                    .withIssuer("voll med")
+                    .withIssuer("foro hub")
                     .withSubject(usuario.getUsuario())
                     .withClaim("id", usuario.getId())
                     .withExpiresAt(generateExpirationDate())
@@ -44,7 +44,7 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(apiSecret); // validando firma
             verifier = JWT.require(algorithm)
-                    .withIssuer("voll med")
+                    .withIssuer("foro hub")
                     .build()
                     .verify(token);
             verifier.getSubject();
